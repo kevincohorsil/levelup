@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize'
 import { sequelize } from '../db/connection.js'
+import Category from './CategoryCostumer.js'
 import {
   nameValidation,
   emailValidation,
@@ -67,3 +68,5 @@ export default function Costumer() {
     },
   )
 }
+
+Costumer().belongsTo(Category(), { foreignKey: 'category' })
