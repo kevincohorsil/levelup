@@ -1,25 +1,62 @@
 import Costumer from '../../models/Costumer.js'
-import Category from '../../models/CategoryCostumer.js'
+import CategoryCostumer from '../../models/CategoryCostumer.js'
 import { Op } from 'sequelize'
 
-export const All = () => {
-  const Result = Costumer().findAll()
+export const All = async () => {
+  let Result
+  await Costumer.findAll({
+    include: {
+      model: CategoryCostumer,
+      as: 'customerCategory',
+      attributes: ['description'],
+    },
+  }).then((costumers) => {
+    if (costumers) {
+      Result = costumers.map((costumer) => ({
+        id: costumer.id,
+        identityCostumer: costumer.identityCostumer,
+        name: costumer.name,
+        phone: costumer.phone,
+        address: costumer.address,
+        category: costumer.category,
+        photo: costumer.photo,
+        email: costumer.email,
+        CategoryDescription: costumer.customerCategory.description, // Campo de descripción de la categoría
+      }))
+    }
+  })
   return Result
 }
 
-export const Single = (id) => {
-  const Result = Costumer().findOne({
+export const Single = async (id) => {
+  let Result
+  await Costumer.findAll({
     include: {
-      model: Category(),
-      attributes: ['descripcion'],
+      model: CategoryCostumer,
+      as: 'customerCategory',
+      attributes: ['description'],
     },
     where: { id: id },
+  }).then((costumers) => {
+    if (costumers) {
+      Result = costumers.map((costumer) => ({
+        id: costumer.id,
+        identityCostumer: costumer.identityCostumer,
+        name: costumer.name,
+        phone: costumer.phone,
+        address: costumer.address,
+        category: costumer.category,
+        photo: costumer.photo,
+        email: costumer.email,
+        CategoryDescription: costumer.customerCategory.description, // Campo de descripción de la categoría
+      }))
+    }
   })
   return Result
 }
 
 export const search = (search) => {
-  const Result = Costumer().findAll({
+  const Result = Costumer.findAll({
     where: { name: { [Op.like]: `%${search}%` } },
   })
   return Result
@@ -27,7 +64,7 @@ export const search = (search) => {
 
 export const InsertData = (req) => {
   const { identityCostumer, name, phone, adress, photo, email } = req.body
-  const newCostumer = Costumer().create({
+  const newCostumer = Costumer.create({
     identityCostumer,
     name,
     phone,
@@ -50,7 +87,7 @@ export const Update = (id, req) => {
     email,
     category,
   } = req.body
-  const UpdateRow = Costumer().update(
+  const UpdateRow = Costumer.update(
     {
       identityCostumer,
       name,

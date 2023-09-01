@@ -1,25 +1,25 @@
 import { Router } from 'express'
-import * as Category from './categoryCostumerQuerys.js'
+import * as EquipmentQuerys from './EquipmentQuerys.js'
 
 const router = Router()
 
 /* ******************
        Method GET
  *******************/
-router.get('/category', async (req, res) => {
-  const Result = await Category.All()
+router.get('/equipment', async (req, res) => {
+  const Result = await EquipmentQuerys.All()
   res.json(Result)
 })
 
-router.get('/category/search', async (req, res) => {
+router.get('/equipment/search', async (req, res) => {
   const search = req.query.search
-  const Result = await Category.search(search)
+  const Result = await EquipmentQuerys.search(search)
   res.json(Result)
 })
 
-router.get('/category/:id', async (req, res) => {
+router.get('/equipment/:id', async (req, res) => {
   const id = req.params.id
-  const Result = await Category.Single(id)
+  const Result = await EquipmentQuerys.Single(id)
   res.json(Result)
 })
 
@@ -27,9 +27,9 @@ router.get('/category/:id', async (req, res) => {
        Method POST
  *******************/
 
-router.post('/category', async (req, res) => {
+router.post('/equipment', async (req, res) => {
   try {
-    const newRow = await Category.InsertData(req)
+    const newRow = await EquipmentQuerys.InsertData(req)
     res.json(newRow)
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {
@@ -46,13 +46,13 @@ router.post('/category', async (req, res) => {
 /* ******************
        Method PUT
  *******************/
-router.put('/category/:id', async (req, res) => {
+router.put('/equipment/:id', async (req, res) => {
   try {
     const id = req.params.id
-    const updateRow = await Category.Update(id, req)
+    const updateRow = await EquipmentQuerys.Update(id, req)
     let Result
     if (updateRow) {
-      Result = await Category.Single(id)
+      Result = await EquipmentQuerys.Single(id)
     }
 
     res.json(Result)

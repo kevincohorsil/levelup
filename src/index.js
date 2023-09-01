@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import costumerController from '../controller/costumer/costumerController.js'
 import categoryController from '../controller/categoryCostumer/categoryCostumerController.js'
+import equipmentController from '../controller/Equipment/EquipmentConroller.js'
+import serviceController from '../controller/service/serviceController.js'
 
 const app = express()
 
@@ -11,6 +13,8 @@ app.use(cors())
 
 app.use('/api', costumerController)
 app.use('/api', categoryController)
+app.use('/api', equipmentController)
+app.use('/api', serviceController)
 
 try {
   await sequelize.authenticate()

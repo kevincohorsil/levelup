@@ -1,20 +1,20 @@
-import category from '../../models/CategoryCostumer.js'
+import service from '../../models/service.js'
 import { Op } from 'sequelize'
 
 export const All = () => {
-  const Result = category().findAll()
+  const Result = service.findAll()
   return Result
 }
 
 export const Single = (id) => {
-  const Result = category().findOne({
+  const Result = service.findOne({
     where: { id: id },
   })
   return Result
 }
 
 export const search = (search) => {
-  const Result = category().findAll({
+  const Result = service.findAll({
     where: { description: { [Op.like]: `%${search}%` } },
   })
   return Result
@@ -22,7 +22,7 @@ export const search = (search) => {
 
 export const InsertData = (req) => {
   const { description } = req.body
-  const newCategory = category().create({
+  const newCategory = service.create({
     description,
   })
   return newCategory
@@ -30,7 +30,7 @@ export const InsertData = (req) => {
 
 export const Update = (id, req) => {
   const { description } = req.body
-  const UpdateRow = category().update(
+  const UpdateRow = service.update(
     {
       description,
     },
