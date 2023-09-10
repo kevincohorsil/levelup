@@ -3,8 +3,9 @@ import Service from '../../models/service.js'
 import Costumer from '../../models/Costumer.js'
 import { Op } from 'sequelize'
 
-export const All = () => {
-  const Result = Equipment.findAll({
+export const All = async () => {
+  let Result
+  await Equipment.findAll({
     include: [
       {
         model: Costumer,
@@ -19,7 +20,7 @@ export const All = () => {
     ],
   }).then((data) => {
     if (data) {
-      Result = data.map((data) => ({
+      Result = data.map((data, index) => ({
         id: data.id,
         description: data.description,
         idservice: data.idservice,
