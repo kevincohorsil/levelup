@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize'
 import { sequelize } from '../db/connection.js'
 import Service from './service.js'
+import Costumer from './Costumer.js'
 
 const Equipment = sequelize.define(
   'Equipment',
@@ -15,7 +16,7 @@ const Equipment = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    id_service: {
+    idservice: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -23,17 +24,25 @@ const Equipment = sequelize.define(
         key: 'id',
       },
     },
-    start_date: {
+    startdate: {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: Sequelize.Sequelize.fn('getdate'),
     },
-    end_date: {
+    enddate: {
       type: DataTypes.DATE,
       allowNull: true,
     },
     photo: {
       type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    idCostumer: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    estado: {
+      type: DataTypes.STRING(30),
       allowNull: true,
     },
   },
@@ -52,7 +61,11 @@ const Equipment = sequelize.define(
   },
 )
 Equipment.belongsTo(Service, {
-  foreignKey: 'id_service',
+  foreignKey: 'idservice',
   as: 'equipmentService',
+})
+Equipment.belongsTo(Costumer, {
+  foreignKey: 'idCostumer',
+  as: 'equipmentCostumer',
 })
 export default Equipment

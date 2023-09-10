@@ -21,7 +21,9 @@ export const All = async () => {
         category: costumer.category,
         photo: costumer.photo,
         email: costumer.email,
-        CategoryDescription: costumer.customerCategory.description, // Campo de descripción de la categoría
+        CategoryDescription: costumer.customerCategory
+          ? costumer.customerCategory.description
+          : '', // Campo de descripción de la categoría
       }))
     }
   })
@@ -48,7 +50,9 @@ export const Single = async (id) => {
         category: costumer.category,
         photo: costumer.photo,
         email: costumer.email,
-        CategoryDescription: costumer.customerCategory.description, // Campo de descripción de la categoría
+        CategoryDescription: costumer.customerCategory
+          ? costumer.customerCategory.description
+          : '', // Campo de descripción de la categoría
       }))
     }
   })
@@ -63,16 +67,24 @@ export const search = (search) => {
 }
 
 export const InsertData = (req) => {
-  const { identityCostumer, name, phone, adress, photo, email } = req.body
+  const {
+    identityCostumer,
+    name,
+    phone,
+    address,
+    photo,
+    email,
+    category,
+  } = req.body
   const newCostumer = Costumer.create({
     identityCostumer,
     name,
     phone,
-    adress,
+    address,
     photo:
       'https://cdn.icon-icons.com/icons2/1508/PNG/512/systemusers_104569.png',
     email,
-    category: 1,
+    category: category,
   })
   return newCostumer
 }
@@ -82,7 +94,7 @@ export const Update = (id, req) => {
     identityCostumer,
     name,
     phone,
-    adress,
+    address,
     photo,
     email,
     category,
@@ -92,7 +104,7 @@ export const Update = (id, req) => {
       identityCostumer,
       name,
       phone,
-      adress,
+      address,
       photo,
       email,
       category,

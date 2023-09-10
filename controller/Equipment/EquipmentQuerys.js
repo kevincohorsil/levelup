@@ -1,31 +1,73 @@
 import Equipment from '../../models/Equipment.js'
 import Service from '../../models/service.js'
+import Costumer from '../../models/Costumer.js'
 import { Op } from 'sequelize'
 
 export const All = () => {
-  const Result = Equipment.findAll()
+  const Result = Equipment.findAll({
+    include: [
+      {
+        model: Costumer,
+        as: 'equipmentCostumer',
+        attributes: ['name'],
+      },
+      {
+        model: Service,
+        as: 'equipmentService',
+        attributes: ['description'],
+      },
+    ],
+  }).then((data) => {
+    if (data) {
+      Result = data.map((data) => ({
+        id: data.id,
+        description: data.description,
+        idservice: data.idservice,
+        startdate: data.startdate,
+        enddate: data.enddate,
+        photo: data.photo,
+        serviceDescription: data.equipmentService
+          ? data.equipmentService.description
+          : '', // Campo de descripción de la categoría
+        nameCostumer: data.equipmentCostumer ? data.equipmentCostumer.name : '', // Campo de descripción de la categoría
+        estado: data.estado,
+      }))
+    }
+  })
   return Result
 }
 
 export const Single = async (id) => {
   let Result
   await Equipment.findAll({
-    include: {
-      model: Service,
-      as: 'equipmentService',
-      attributes: ['description'],
-    },
+    include: [
+      {
+        model: Costumer,
+        as: 'equipmentCostumer',
+        attributes: ['name'],
+      },
+      {
+        model: Service,
+        as: 'equipmentService',
+        attributes: ['description'],
+      },
+    ],
+
     where: { id: id },
   }).then((data) => {
     if (data) {
       Result = data.map((data) => ({
         id: data.id,
         description: data.description,
-        id_service: data.id_service,
-        start_date: data.start_date,
-        end_date: data.end_date,
+        idservice: data.idservice,
+        startdate: data.startdate,
+        enddate: data.enddate,
         photo: data.photo,
-        serviceDescription: data.equipmentService.description, // Campo de descripción de la categoría
+        serviceDescription: data.equipmentService
+          ? data.equipmentService.description
+          : '', // Campo de descripción de la categoría
+        nameCostumer: data.equipmentCostumer ? data.equipmentCostumer.name : '', // Campo de descripción de la categoría
+        estado: data.estado,
       }))
     }
   })
@@ -40,26 +82,42 @@ export const search = (search) => {
 }
 
 export const InsertData = (req) => {
-  const { description, id_service, start_date, end_date, photo } = req.body
+  const {
+    description,
+    idservice,
+    startdate,
+    enddate,
+    photo,
+    idCostumer,
+  } = req.body
   const newEquipment = Equipment.create({
     description,
-    id_service,
-    start_date: start_date,
-    end_date: end_date,
+    idservice,
+    startdate: startdate,
+    enddate: enddate,
     photo,
+    idCostumer,
   })
   return newEquipment
 }
 
 export const Update = (id, req) => {
-  const { description, id_service, start_date, end_date, photo } = req.body
+  const {
+    description,
+    idservice,
+    startdate,
+    enddate,
+    photo,
+    idCostumer,
+  } = req.body
   const UpdateRow = Equipment.update(
     {
       description,
-      id_service,
-      start_date,
-      end_date,
+      idservice,
+      startdate,
+      enddate,
       photo,
+      idCostumer,
     },
     {
       where: { id: id },

@@ -33,7 +33,7 @@ const Costumer = sequelize.define(
       allowNull: true,
       validate: phoneValidation,
     },
-    adress: {
+    address: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
