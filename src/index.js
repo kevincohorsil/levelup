@@ -4,6 +4,7 @@ import costumerController from '../controller/costumer/costumerController.js'
 import categoryController from '../controller/categoryCostumer/categoryCostumerController.js'
 import equipmentController from '../controller/Equipment/EquipmentConroller.js'
 import serviceController from '../controller/service/serviceController.js'
+import EquipmentTypeConroller from '../controller/EquipmentType/EquipmentTypeController.js'
 
 const app = express()
 
@@ -15,6 +16,7 @@ app.use('/api', costumerController)
 app.use('/api', categoryController)
 app.use('/api', equipmentController)
 app.use('/api', serviceController)
+app.use('/api', EquipmentTypeConroller)
 
 try {
   await sequelize.authenticate()

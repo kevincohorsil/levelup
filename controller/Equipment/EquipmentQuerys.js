@@ -1,6 +1,7 @@
 import Equipment from '../../models/Equipment.js'
 import Service from '../../models/service.js'
 import Costumer from '../../models/Costumer.js'
+import EquipmentType from '../../models/EquipmentType.js'
 import { Op } from 'sequelize'
 
 export const All = async () => {
@@ -17,6 +18,11 @@ export const All = async () => {
         as: 'equipmentService',
         attributes: ['description'],
       },
+      {
+        model: EquipmentType,
+        as: 'equipmentType',
+        attributes: ['description'],
+      },
     ],
   }).then((data) => {
     if (data) {
@@ -31,6 +37,11 @@ export const All = async () => {
           ? data.equipmentService.description
           : '', // Campo de descripción de la categoría
         nameCostumer: data.equipmentCostumer ? data.equipmentCostumer.name : '', // Campo de descripción de la categoría
+        idEquipmentType: data.idEquipmentType,
+        descriptiontype: data.equipmentType
+          ? data.equipmentType.description
+          : '', // Campo de descripción de la Typo
+
         estado: data.estado,
       }))
     }
@@ -52,6 +63,11 @@ export const Single = async (id) => {
         as: 'equipmentService',
         attributes: ['description'],
       },
+      {
+        model: EquipmentType,
+        as: 'equipmentType',
+        attributes: ['description'],
+      },
     ],
 
     where: { id: id },
@@ -68,6 +84,10 @@ export const Single = async (id) => {
           ? data.equipmentService.description
           : '', // Campo de descripción de la categoría
         nameCostumer: data.equipmentCostumer ? data.equipmentCostumer.name : '', // Campo de descripción de la categoría
+        idEquipmentType: data.idEquipmentType,
+        descriptiontype: data.equipmentType
+          ? data.equipmentType.description
+          : '', // Campo de descripción de la Typo
         estado: data.estado,
       }))
     }

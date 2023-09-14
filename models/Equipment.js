@@ -2,6 +2,7 @@ import { Sequelize, DataTypes } from 'sequelize'
 import { sequelize } from '../db/connection.js'
 import Service from './service.js'
 import Costumer from './Costumer.js'
+import EquipmentType from './EquipmentType.js'
 
 const Equipment = sequelize.define(
   'Equipment',
@@ -41,6 +42,10 @@ const Equipment = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    idEquipmentType: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     estado: {
       type: DataTypes.STRING(30),
       allowNull: true,
@@ -68,4 +73,10 @@ Equipment.belongsTo(Costumer, {
   foreignKey: 'idCostumer',
   as: 'equipmentCostumer',
 })
+Equipment.belongsTo(EquipmentType, {
+  foreignKey: 'idEquipmentType',
+  as: 'equipmentType',
+})
+
+EquipmentType
 export default Equipment
