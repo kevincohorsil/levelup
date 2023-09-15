@@ -6,6 +6,9 @@ import equipmentController from '../controller/Equipment/EquipmentConroller.js'
 import serviceController from '../controller/service/serviceController.js'
 import EquipmentTypeConroller from '../controller/EquipmentType/EquipmentTypeController.js'
 import UpoadPhoto from '../controller/Photo/uploadPhoto.js'
+import Diagnosis from '../controller/Diagnosis/diagnosisController.js'
+import Sales from '../controller/Sales/salesController.js'
+import Payment from '../controller/payment/paymnetController.js'
 
 const app = express()
 
@@ -19,6 +22,9 @@ app.use('/api', equipmentController)
 app.use('/api', serviceController)
 app.use('/api', EquipmentTypeConroller)
 app.use('/api', UpoadPhoto)
+app.use('/api', Diagnosis)
+app.use('/api', Sales)
+app.use('/api', Payment)
 
 try {
   await sequelize.authenticate()

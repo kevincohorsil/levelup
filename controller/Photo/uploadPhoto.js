@@ -27,7 +27,7 @@ router.post('/subirFoto', upload.single('image'),async  (req, res) => {
         contentType: req.file.mimetype,
       },
     });
-    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/levelup-f944c/o/${file.name}?alt=media&token=30cd87f2-4a89-46c6-9cac-25ad45c76549`;
+    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${file.name}?alt=media&token=30cd87f2-4a89-46c6-9cac-25ad45c76549`;
     res.status(200).json({ message: 'Archivo subido correctamente. ' ,url:fileUrl });
   } catch (error) {
     console.error(error);

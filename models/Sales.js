@@ -1,9 +1,9 @@
 import { Sequelize, DataTypes } from 'sequelize'
 import { sequelize } from '../db/connection.js'
-import Equipment from './Equipment.js'
+import EquipmentType from './EquipmentType.js'
 
-const Diagnosis = sequelize.define(
-  'Diagnosis',
+const Sales = sequelize.define(
+  'Sales',
   {
     id: {
       autoIncrement: true,
@@ -11,44 +11,49 @@ const Diagnosis = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    idEquipment: {
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.fn('getdate'),
+    },
+    idType: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'payment',
+        model: 'EquipmentType',
         key: 'id',
       },
     },
-    valor: {
+    description: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    value: {
       type: DataTypes.DECIMAL(19, 4),
       allowNull: true,
       defaultValue: 0,
     },
-    description: {
-      type: DataTypes.STRING(300),
-      allowNull: false,
-    },
-    approximateTime: {
-      type: DataTypes.DATE,
-      allowNull: false,
+    status: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
     },
   },
   {
     sequelize,
-    tableName: 'Diagnosis',
+    tableName: 'Sales',
     schema: 'dbo',
     timestamps: false,
     indexes: [
       {
-        name: 'PK_Diagnosis',
+        name: 'PK_Sales',
         unique: true,
         fields: [{ name: 'id' }],
       },
     ],
   },
 )
-Diagnosis.belongsTo(Equipment, {
-  foreignKey: 'idEquipment',
-  as: 'equipment',
+Sales.belongsTo(EquipmentType, {
+  foreignKey: 'idType',
+  as: 'equipmentType',
 })
-export default Diagnosis
+export default Sales

@@ -78,5 +78,4 @@ Equipment.belongsTo(EquipmentType, {
   as: 'equipmentType',
 })
 
-EquipmentType
 export default Equipment

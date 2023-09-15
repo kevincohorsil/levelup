@@ -1,12 +1,14 @@
 var DataTypes = require("sequelize").DataTypes;
-var _EquipmentType = require("./EquipmentType");
+var _Sales = require("./Sales");
 
 function initModels(sequelize) {
-  var EquipmentType = _EquipmentType(sequelize, DataTypes);
+  var Sales = _Sales(sequelize, DataTypes);
 
+  Sales.belongsTo(EquipmentType, { as: "idType_EquipmentType", foreignKey: "idType"});
+  EquipmentType.hasMany(Sales, { as: "Sales", foreignKey: "idType"});
 
   return {
-    EquipmentType,
+    Sales,
   };
 }
 module.exports = initModels;
