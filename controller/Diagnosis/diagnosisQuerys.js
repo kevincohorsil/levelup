@@ -28,7 +28,7 @@ export const All = async () => {
 
 export const Single = async (id) => {
   let Result
-  await Diagnosis.findOne({
+  await Diagnosis.findAll({
     include: [
       {
         model: Equipment,
@@ -101,4 +101,29 @@ export const Update = (id, req) => {
     },
   )
   return UpdateRow
+}
+
+export const byEquipment = async (id) => {
+  let Result
+  await Diagnosis.findAll({
+    include: [
+      {
+        model: Equipment,
+        as: 'equipment',
+        attributes: ['description'],
+      },
+    ],
+    where: { idEquipment: id },
+  }).then((data) => {
+    if (data) {
+      Result = data.map((data, index) => ({
+        id: data.id,
+        idEquipment: data.idEquipment,
+        valor: data.valor,
+        approximateTime: data.approximateTime,
+        equipmentDescription: data.equipment ? data.equipment.description : '', // Campo de descripción de la categoría
+      }))
+    }
+  })
+  return Result
 }

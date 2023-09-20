@@ -17,6 +17,12 @@ router.get('/diagnosis/search', async (req, res) => {
   res.json(Result)
 })
 
+router.get('/diagnosis/byEquipment', async (req, res) => {
+  const idEquipment = req.query.idEquipment
+  const Result = await Diagnosis.byEquipment(idEquipment)
+  res.json(Result)
+})
+
 router.get('/diagnosis/:id', async (req, res) => {
   const id = req.params.id
   const Result = await Diagnosis.Single(id)
